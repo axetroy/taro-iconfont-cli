@@ -58,8 +58,6 @@ fetchXml(config.symbol_url).then((result) => {
 
     execFile = path.join(...execFile.split('/'));
 
-    console.log(`\nCreating icons for platform ${colors.green(platform)}\n`);
-
     const execMethod = path.basename(execFile);
 
     if (execFile.indexOf('mini-program-iconfont-cli') >= 0) {
@@ -75,7 +73,8 @@ fetchXml(config.symbol_url).then((result) => {
         fs.unlinkSync(rnFilePath);
       });
     } else {
-      execFile = execFile.replace(/react-iconfont-cli/, reactWebDir);
+      execFile = path.join(reactWebDir, '..', execFile);
+
       require(execFile)[execMethod](result, filterReactWebConfig(config, platform));
 
       // Remove .d.ts files
